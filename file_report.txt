@@ -1,0 +1,12 @@
+ADVANCED FILE ORGANIZER REPORT
+==================================================
+
+photo.jpg --> Images
+movie.mp4 --> Videos
+report.pdf --> Documents
+
+==================================================
+Total Files : 10
+Moved Files : 10
+Total Size  : 55.21 MB
+Time Taken  : 0.45 sec
