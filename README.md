@@ -89,6 +89,15 @@ logs/organizer.log
 - AI-Based File Classification
 
 ---
+# Project Live Link 
+
+https://github.com/vv1705260-rgb/Advanced-File-Organizer-Tool/tree/main
+
+---
+
+# Screenshot demo
+
+  <img width="1536" height="1024" alt="89895" src="https://github.com/user-attachments/assets/c8b4ea8b-294e-4c9b-a4fe-60db75f1dd0b" />
 
 # 👩‍💻 Author
 
