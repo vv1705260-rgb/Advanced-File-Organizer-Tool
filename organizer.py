@@ -3,102 +3,89 @@ import shutil
 import time
 from datetime import datetime
 
-# =========================
-# ADVANCED FILE ORGANIZER
-# =========================
+from config import FILE_CATEGORIES, LOG_FOLDER, LOG_FILE, REPORT_FILE
+from banner import show_banner
+from utils import create_folder, format_size
 
-print("=" * 50)
-print("      ADVANCED FILE ORGANIZER TOOL")
-print("=" * 50)
+# Show Banner
+show_banner()
 
 # User Input
 path = input("\nEnter folder path to organize: ")
 
-# Check Path Exists
+# Check Folder
 if not os.path.exists(path):
     print("\n❌ Folder does not exist!")
     exit()
 
-# File Categories
-FILE_CATEGORIES = {
-    "Images": [".jpg", ".jpeg", ".png", ".gif", ".webp"],
-    "Documents": [".pdf", ".docx", ".txt", ".pptx", ".xlsx"],
-    "Videos": [".mp4", ".mkv", ".mov", ".avi"],
-    "Music": [".mp3", ".wav"],
-    "Programs": [".py", ".java", ".cpp", ".html", ".css", ".js"],
-    "Archives": [".zip", ".rar"],
-    "Applications": [".exe", ".msi"]
-}
-
 # Create Logs Folder
-if not os.path.exists("logs"):
-    os.makedirs("logs")
-
-# Log File
-log_file = "logs/organizer.log"
+create_folder(LOG_FOLDER)
 
 # Statistics
 total_files = 0
 moved_files = 0
-skipped_files = 0
+total_size = 0
 
 # Start Time
 start_time = time.time()
 
-# Write Logs
+# Logging Function
 def write_log(message):
-    with open(log_file, "a", encoding="utf-8") as log:
+    with open(LOG_FILE, "a", encoding="utf-8") as log:
         log.write(message + "\n")
 
-# Current Time
+# Report File
+report = open(REPORT_FILE, "w", encoding="utf-8")
+
 current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 write_log(f"\n===== ORGANIZER STARTED : {current_time} =====")
 
-# Organize Files
+report.write("ADVANCED FILE ORGANIZER REPORT\n")
+report.write("=" * 50 + "\n\n")
+
+# Organizing Files
 for file in os.listdir(path):
 
     file_path = os.path.join(path, file)
 
-    # Skip folders
     if os.path.isdir(file_path):
-        skipped_files += 1
         continue
 
     total_files += 1
-    moved = False
 
-    # Extension
     extension = os.path.splitext(file)[1].lower()
 
-    # Match Category
+    file_size = os.path.getsize(file_path)
+    total_size += file_size
+
+    moved = False
+
     for category, extensions in FILE_CATEGORIES.items():
 
         if extension in extensions:
 
             category_folder = os.path.join(path, category)
 
-            # Create Folder
-            if not os.path.exists(category_folder):
-                os.makedirs(category_folder)
+            create_folder(category_folder)
 
-            # Destination
             destination = os.path.join(category_folder, file)
 
-            # Rename if duplicate exists
+            # Rename duplicate files
             if os.path.exists(destination):
 
-                file_name = os.path.splitext(file)[0]
-                new_name = f"{file_name}_{int(time.time())}{extension}"
+                name = os.path.splitext(file)[0]
+                new_name = f"{name}_{int(time.time())}{extension}"
 
                 destination = os.path.join(category_folder, new_name)
 
-            # Move File
             shutil.move(file_path, destination)
 
-            print(f"✅ Moved: {file} → {category}")
+            print(f"✅ {file} → {category}")
 
             write_log(f"Moved: {file} --> {category}")
+
+            report.write(f"{file} --> {category}\n")
 
             moved_files += 1
             moved = True
@@ -109,33 +96,38 @@ for file in os.listdir(path):
 
         others_folder = os.path.join(path, "Others")
 
-        if not os.path.exists(others_folder):
-            os.makedirs(others_folder)
+        create_folder(others_folder)
 
         shutil.move(file_path, os.path.join(others_folder, file))
 
-        print(f"📂 Moved: {file} → Others")
+        print(f"📂 {file} → Others")
 
-        write_log(f"Moved: {file} --> Others")
+        report.write(f"{file} --> Others\n")
 
         moved_files += 1
 
 # End Time
 end_time = time.time()
 
-# Summary
-print("\n" + "=" * 50)
-print("          ORGANIZATION COMPLETED")
-print("=" * 50)
+# Final Report
+report.write("\n" + "=" * 50 + "\n")
+report.write(f"Total Files : {total_files}\n")
+report.write(f"Moved Files : {moved_files}\n")
+report.write(f"Total Size  : {format_size(total_size)}\n")
+report.write(f"Time Taken  : {round(end_time - start_time, 2)} sec\n")
 
-print(f"📁 Total Files Scanned : {total_files}")
-print(f"✅ Files Organized     : {moved_files}")
-print(f"⏭️ Skipped Folders      : {skipped_files}")
-print(f"⏱️ Time Taken           : {round(end_time - start_time, 2)} seconds")
+report.close()
 
-write_log(f"Total Files: {total_files}")
-write_log(f"Moved Files: {moved_files}")
-write_log("===== ORGANIZER FINISHED =====")
+# Console Summary
+print("\n" + "=" * 60)
+print("         ORGANIZATION COMPLETED")
+print("=" * 60)
 
-print("\n📄 Log file saved in logs/organizer.log")
-print("🚀 Thank You For Using Advanced File Organizer!")
+print(f"📁 Total Files : {total_files}")
+print(f"✅ Moved Files : {moved_files}")
+print(f"💾 Total Size  : {format_size(total_size)}")
+print(f"⏱️ Time Taken   : {round(end_time - start_time, 2)} sec")
+
+print("\n📄 Report Generated : file_report.txt")
+print("📄 Logs Saved Successfully")
+print("\n🚀 Advanced File Organizer Finished!")
