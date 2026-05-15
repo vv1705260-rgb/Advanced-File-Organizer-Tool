@@ -251,8 +251,11 @@ Through this project, the following concepts were applied:
 
 
 📧 Email: [vv1705260@gmail.com](mailto:vv1705260@gmail.com)
+
 🔗 GitHub: [https://github.com/vv1705260-rgb](https://github.com/vv1705260-rgb)
+
 🌐 Portfolio: [https://vv1705260-rgb.github.io](https://vv1705260-rgb.github.io)
+
 💼 LinkedIn: [https://linkedin.com/in/vaishali-357946292006deimos](https://linkedin.com/in/vaishali-357946292006deimos)
 
 ---
