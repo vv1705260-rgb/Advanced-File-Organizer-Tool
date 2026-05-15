@@ -461,4 +461,31 @@ print(f"Audio    : {audio_count}")
 "Advanced File Organizer Pro is a professional Python automation tool that intelligently organizes files into categorized folders, detects duplicates, generates logs, and improves digital workspace management using automation and smart file handling techniques."
 
 ```
-    
+  from colorama import Fore, Style, init
+
+init(autoreset=True)
+
+print(Fore.GREEN + "Organization Completed Successfully!")
+print(Fore.CYAN + "Advanced File 
+from tqdm import tqdm
+
+for file in tqdm(files, desc="Organizing Files"):
+    process_file(file)
+    backup_folder = os.path.join(base_path, "Backup")
+
+if not os.path.exists(backup_folder):
+    os.makedirs(backup_folder)
+
+shutil.copy(file_path, backup_folder)
+print("
+===== FILE STATISTICS =====")
+print(f"Images   : {image_count}")
+print(f"Documents: {document_count}")
+print(f"Videos   : {video_count}")
+print(f"Audio    : {audio_count}")
+
+![Python](https://img.shields.io/badge/Python-3.x-blue)
+![Automation](https://img.shields.io/badge/Automation-Advanced-success)
+![Status](https://img.shields.io/badge/Project-Professional-orange)
+![License](https://img.shields.io/badge/License-MIT-green)
+
